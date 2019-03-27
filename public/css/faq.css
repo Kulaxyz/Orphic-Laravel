@@ -1,0 +1,82 @@
+.container-faq {
+    display: flex;
+    flex-direction: row;
+}
+
+.main-faq {
+    font-family: Roboto,sans-serif;
+    font-size: 15px;
+    color: #777777;
+    line-height: 1.4;
+    display:flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+.main-faq a{
+    /*font-weight: 400;*/
+    text-decoration: none;
+}
+
+.panel-heading-faq{
+    margin-top: 25px;
+    width: 470px;
+}
+.panel-collapse-faq{
+    display: none;
+    width: 470px;
+}
+
+.panel-heading-faq a{
+    background: #333333;
+    color: #ffffff;
+    display: block;
+    padding: 10px 40px 10px 15px;
+    transition: 0.3s;
+    font-size: 20px;
+}
+
+.panel-heading-faq a i{
+    font-size: 16px;
+    width: 30px;
+}
+
+.panel-heading-faq.in a{
+    background: #E98F2E;
+}
+.panel-body-faq-form {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    padding: 20px;
+}
+.panel-body-faq {
+    color: #fff0ff;
+}
+
+.input-wrapper-faq {
+    /* margin-bottom: 20px; */
+    /* margin-left: 20px; */
+    margin: 28px 1px;
+}
+.panel-footer .button.send-faq {
+    background-color: #519a31;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    font-size: 17px;
+}
+i.fa.fa-paper-plane.faq-icon {
+    padding-right: 5px;
+    /* line-height: 1; */
+    padding-top: 3px;
+}
+
+.form-control-faq {
+    height: auto;
+    margin-left: 55px;
+}
+.input-wrapper-faq {
+    margin-bottom: 20px;
+    margin-top: 15px;
+}

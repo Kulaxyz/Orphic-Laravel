@@ -1,0 +1,35 @@
+{
+    "name": "barryvdh/laravel-omnipay",
+    "description": "Omnipay Service Provider for Laravel",
+    "keywords": ["laravel", "omnipay"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Barry vd. Heuvel",
+            "email": "barryvdh@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^5",
+        "league/omnipay": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Barryvdh\\Omnipay\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.3-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Barryvdh\\Omnipay\\ServiceProvider"
+            ],
+            "aliases": {
+                "Omnipay": "Barryvdh\\Omnipay\\Facade"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
