@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\LocaleMiddleware::class,
             \App\Http\Middleware\ThemeMiddleware::class,
             \App\Http\Middleware\SettingsMiddleware::class,
+
         ],
 
         'api' => [
@@ -62,5 +63,7 @@ class Kernel extends HttpKernel
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
         'MinifyHtml' => \App\Http\Middleware\MinifyHtml::class,
         'contentlength' => \App\Http\Middleware\AddContentLength::class,
+        'HasProfile' => \App\Http\Middleware\HasProfile::class,
+
     ];
 }

@@ -177,7 +177,11 @@ class PageController extends Controller
         }
 
         $article->increment('views');
-        $popular = $article->category->articles()->take(3)->orderBy('views', 'decs')->get();
+        $popular = $article->category->articles()
+                                    ->where('slug', '!=', $article->slug)
+                                    ->limit(5)
+                                    ->orderBy('views', 'decs')
+                                    ->get();
         $popular_games = Cache::rememberForever('popular_games', function () {
             return \App\Models\Game::query()->with('platform','giantbomb','listingsCount','wishlistCount','metacritic')->withCount('heartbeat')->orderBy('heartbeat_count','desc')->limit('3')->get();
         });
@@ -185,7 +189,7 @@ class PageController extends Controller
         return view('frontend.blog.article', [
                                                     'article' => $article,
                                                     'popArticles' => $popular,
-                                                    'popGames' => $popular_games
+                                                    'popular_games' => $popular_games
                                                     ]);
     }
 }

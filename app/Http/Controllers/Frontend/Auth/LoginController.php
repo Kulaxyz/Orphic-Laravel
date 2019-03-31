@@ -25,7 +25,7 @@ class LoginController extends Controller
      */
     public function redirectPath(Request $request)
     {
-        return route('frontend.dash');
+        return route('check');
     }
 
     /**
@@ -43,7 +43,7 @@ class LoginController extends Controller
         if (!auth()->user()) {
             return view('frontend.auth.login');
         } else {
-            return redirect()->route('frontend.dash');
+            return redirect()->route('check');
         }
     }
 
@@ -92,7 +92,7 @@ class LoginController extends Controller
         // return link to dashboard or previous url (on modal login only)
         if ($request->ajax()) {
             if (url()->previous() == url('login')) {
-                return url('dash');
+                return url('check');
             } else {
                 return url()->previous();
             }

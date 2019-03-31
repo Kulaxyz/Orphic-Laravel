@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'headline'      => 'Welcome to Orphic Community',
+    'headline'      => 'Welcome to Community',
     'description'   => '',
 
 ];

@@ -57,6 +57,10 @@ class User extends Authenticatable
     |--------------------------------------------------------------------------
     */
 
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile','user_id', 'id');
+    }
 
     public function listings()
     {

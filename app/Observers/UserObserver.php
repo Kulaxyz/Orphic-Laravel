@@ -16,7 +16,6 @@ class UserObserver
      */
     public function deleting(User $user)
     {
-
         return true;
     }
 }

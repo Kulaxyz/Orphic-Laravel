@@ -743,6 +743,7 @@ class ComposerStaticInitfa039f6ea50a6bc7f696f76e1ac4d3c8
         'CreatePaymentsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_20_183134_create_payments_table.php',
         'CreatePermissionTables' => __DIR__ . '/../..' . '/database/migrations/2016_05_10_130540_create_permission_tables.php',
         'CreatePlatformDigitalTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_15_123513_create_platform_digital_table.php',
+        'CreateProfilesTable' => __DIR__ . '/../..' . '/database/migrations/2019_03_29_100944_create_profiles_table.php',
         'CreateRevisionsTable' => __DIR__ . '/..' . '/venturecraft/revisionable/src/migrations/2013_04_09_062329_create_revisions_table.php',
         'CreateSettingsTable' => __DIR__ . '/../..' . '/database/migrations/2015_08_04_131614_create_settings_table.php',
         'CreateSocialLoginsTable' => __DIR__ . '/../..' . '/database/migrations/2015_12_28_171741_create_social_logins_table.php',

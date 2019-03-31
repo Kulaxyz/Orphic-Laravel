@@ -60,6 +60,7 @@ return array(
     'CreatePaymentsTable' => $baseDir . '/database/migrations/2017_03_20_183134_create_payments_table.php',
     'CreatePermissionTables' => $baseDir . '/database/migrations/2016_05_10_130540_create_permission_tables.php',
     'CreatePlatformDigitalTable' => $baseDir . '/database/migrations/2017_01_15_123513_create_platform_digital_table.php',
+    'CreateProfilesTable' => $baseDir . '/database/migrations/2019_03_29_100944_create_profiles_table.php',
     'CreateRevisionsTable' => $vendorDir . '/venturecraft/revisionable/src/migrations/2013_04_09_062329_create_revisions_table.php',
     'CreateSettingsTable' => $baseDir . '/database/migrations/2015_08_04_131614_create_settings_table.php',
     'CreateSocialLoginsTable' => $baseDir . '/database/migrations/2015_12_28_171741_create_social_logins_table.php',

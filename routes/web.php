@@ -13,6 +13,11 @@
 // Startpage
 Route::get('/', 'PageController@startpage')->name('index');
 
+Route::get('check')->middleware('HasProfile')->name('check');
+
+Route::get('fill-profile', 'ProfileController@fill')->middleware('auth')->name('fill-profile');
+Route::post('fill-profile', 'ProfileController@store')->middleware('auth')->name('save-profile');
+
 // Admin Interface Routes
 Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middleware' => ['permission:access_backend']], function()
 {

@@ -22,9 +22,11 @@
   @endif
   @foreach($articles as $article)
     <div class="panel">
-      <div class="article-picture" style="background-image: url('{{$article->image_large}}') !important;">
+      <a href="{{$article->url_slug}}"><div class="article-picture"
+                                            style="background-image: url('{{$article->image_large}}') !important;">
+                                      </div>
+      </a>
 
-      </div>
       <div class="article">
         {{-- Article head --}}
         <div class="panel-heading p-20">
