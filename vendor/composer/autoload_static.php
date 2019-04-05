@@ -689,6 +689,7 @@ class ComposerStaticInitfa039f6ea50a6bc7f696f76e1ac4d3c8
     );
 
     public static $classMap = array (
+        'AddArticleViews' => __DIR__ . '/../..' . '/database/migrations/2019_04_03_101335_add_article_views.php',
         'AddChatterLastReplyAtDiscussion' => __DIR__ . '/../..' . '/database/migrations/2017_10_10_221227_add_chatter_last_reply_at_discussion.php',
         'AddChatterSoftDeletes' => __DIR__ . '/../..' . '/database/migrations/2017_08_07_165345_add_chatter_soft_deletes.php',
         'AddColorRowToChatterDiscussions' => __DIR__ . '/../..' . '/database/migrations/2016_08_03_121747_add_color_row_to_chatter_discussions.php',

@@ -67,6 +67,8 @@ return [
           'profile_link' => 'Your profile link:',
           'username' => 'Username',
           'email' => 'eMail Address',
+          'first_name' => 'First name',
+          'surname' => 'Surname',
           'change_avatar' => 'Change profile image',
           'browse' => 'Browse',
           'location_change' => 'Change location',

@@ -9,7 +9,7 @@ class Profile extends Model
     protected $table = 'profiles';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $fillable = ['surname', 'location', 'age', 'gender', 'skype', 'discord', 'about', 'user_id'];
+    protected $fillable = ['first_name', 'surname', 'age', 'gender', 'skype', 'discord', 'about', 'user_id'];
 
     public function user()
     {

@@ -24,9 +24,7 @@ class CreateArticlesTable extends Migration
             $table->boolean('featured')->default(0);
             $table->timestamps();
             $table->softDeletes();
-            $table->integer('views')
-                ->default(0)
-                ->after('title');
+
         });
     }
 

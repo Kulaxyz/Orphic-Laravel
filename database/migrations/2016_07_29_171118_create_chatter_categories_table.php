@@ -9,6 +9,7 @@ class CreateChatterCategoriesTable extends Migration
     {
         Schema::create('chatter_categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('parent_id')->unsigned()->nullable()->default(null);
             $table->integer('order')->default(1);
             $table->string('name');
             $table->string('color', 20)->defauld('#3498DB');

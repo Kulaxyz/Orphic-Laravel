@@ -9,14 +9,20 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-
 // Startpage
 Route::get('/', 'PageController@startpage')->name('index');
 
-Route::get('check')->middleware('HasProfile')->name('check');
+Route::get('upd', 'ProfileController@update');
 
-Route::get('fill-profile', 'ProfileController@fill')->middleware('auth')->name('fill-profile');
-Route::post('fill-profile', 'ProfileController@store')->middleware('auth')->name('save-profile');
+
+// Profile Routes
+Route::group(['middleware' => ['auth']], function()
+{
+    Route::get('check')->middleware('HasProfile')->name('check');
+    Route::get('fill-profile', 'ProfileController@fill')->name('fill-profile');
+    Route::post('fill-profile', 'ProfileController@store')->name('store-profile');
+
+});
 
 // Admin Interface Routes
 Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middleware' => ['permission:access_backend']], function()
@@ -24,7 +30,6 @@ Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middle
     // Main
     Route::get('dashboard', 'Admin\DashboardController@index');
     Route::get('/', '\Backpack\Base\app\Http\Controllers\AdminController@redirect');
-
     // Settings
     Route::group(['middleware' => ['permission:edit_settings']], function()
     {
@@ -36,7 +41,6 @@ Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middle
         Route::get('language/texts/{lang?}/{file?}', '\Backpack\LangFileManager\app\Http\Controllers\LanguageCrudController@showTexts');
         CRUD::resource('country', 'Admin\CountryCrudController');
     });
-
     // Permissions
     Route::group(['middleware' => ['permission:edit_users']], function()
     {
@@ -45,14 +49,12 @@ Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middle
         CRUD::resource('user', 'Admin\UserCrudController');
         Route::get('user/{user_id}/ban', 'UserController@ban');
     });
-
     // Language
     Route::group(['middleware' => ['permission:edit_translations']], function()
     {
         Route::post('language/texts/{lang}/{file}', 'Admin\LanguageCrudController@updateTexts');
         Route::resource('language', 'Admin\LanguageCrudController');
     });
-
     // Backpack\CRUD: Define the resources for the entities you want to CRUD.
     Route::group(['middleware' => ['permission:edit_articles']], function()
     {
@@ -60,75 +62,60 @@ Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middle
         CRUD::resource('category', 'Admin\CategoryCrudController');
         CRUD::resource('tag', 'Admin\TagCrudController');
     });
-
-
     // Backpack\CRUD: Define the resources for the entities you want to CRUD.
     Route::group(['middleware' => ['permission:edit_games']], function()
     {
         CRUD::resource('game', 'Admin\GameCrudController');
         CRUD::resource('genre', 'Admin\GenreCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_platforms']], function()
     {
         CRUD::resource('platform', 'Admin\PlatformCrudController');
         CRUD::resource('digital', 'Admin\DigitalCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_listings']], function()
     {
         CRUD::resource('listing', 'Admin\ListingCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_faqs']], function()
     {
         CRUD::resource('faq', 'Admin\FaqCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_forum_cats']], function()
     {
         CRUD::resource('forums', 'Admin\ForumCategoryCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_offers']], function()
     {
         CRUD::resource('offer', 'Admin\OfferCrudController');
         CRUD::resource('report', 'Admin\ReportCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_ratings']], function()
     {
         CRUD::resource('rating', 'Admin\User_RatingCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_pages']], function()
     {
         $controller = 'Admin\PageCrudController';
-
         Route::get('page/create/{template}', $controller.'@create');
         Route::get('page/{id}/edit/{template}', $controller.'@edit');
-
         Route::get('page/reorder', $controller.'@reorder');
         Route::get('page/reorder/{lang}', $controller.'@reorder');
         Route::post('page/reorder', $controller.'@saveReorder');
         Route::post('page/reorder/{lang}', $controller.'@saveReorder');
         Route::get('page/{id}/details', $controller.'@showDetailsRow');
         Route::get('page/{id}/translate/{lang}', $controller.'@translateItem');
-
         Route::post('page/search', [
             'as' => 'crud.page.search',
             'uses' => $controller.'@search',
         ]);
-
         Route::resource('page', $controller);
         CRUD::resource('menu-item', 'Admin\MenuItemCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_comments']], function()
     {
         CRUD::resource('comment', 'Admin\CommentCrudController');
     });
-
     Route::group(['middleware' => ['permission:edit_payments']], function()
     {
         CRUD::resource('payment', 'Admin\PaymentCrudController');
@@ -136,7 +123,6 @@ Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middle
         CRUD::resource('withdrawal', 'Admin\WithdrawalCrudController');
     });
 });
-
 /**
  * These routes require no user to be logged in
  */
@@ -144,27 +130,20 @@ Route::group(['middleware' => 'guest','namespace' => 'Frontend\Auth', 'as' => 'f
     // Authentication Routes
     Route::get('login', 'LoginController@showLoginForm')->name('login');
     Route::post('login', 'LoginController@login')->name('login.post');
-
     // Socialite Routes
     Route::get('login/{provider}', 'SocialLoginController@login')->name('social.login');
-
     // Confirm Account Routes
     Route::get('account/confirm/{token}', 'ConfirmAccountController@confirm')->name('account.confirm');
     Route::get('account/confirm/resend/{user}', 'ConfirmAccountController@sendConfirmationEmail')->name('account.confirm.resend');
-
     // Password Reset Routes
     Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.email');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-
     Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.form');
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset');
 });
-
 /**
  * These routes require the user to be logged in
  */
-
-
 // Game Routes
 Route::group(['prefix' => 'games'], function()
 {
@@ -180,18 +159,15 @@ Route::group(['prefix' => 'games'], function()
     Route::get('search/json/{value}', 'GameController@searchJson');
     Route::post('api/search', 'GameController@searchApi');
     Route::get('order/{sort}/{desc?}', 'GameController@order')->middleware('contentlength');
-
     // Wishlist
     Route::post('{slug}/wishlist/add', 'WishlistController@add');
     Route::post('{slug}/wishlist/update', 'WishlistController@update');
     Route::get('{slug}/wishlist/delete', 'WishlistController@delete');
-
     // Admin quick actions
     Route::get('{game_id}/refresh/metacritic', 'GameController@refresh_metacritic')->middleware('permission:edit_games');
     Route::post('change/giantbomb', 'GameController@change_giantbomb')->middleware('permission:edit_games');
 });
 Route::get('search/{value}', 'GameController@search')->name('search');
-
 // Listing Routes
 Route::group(['prefix' => 'listings'], function()
 {
@@ -212,7 +188,6 @@ Route::group(['prefix' => 'listings'], function()
     Route::post('filter', 'ListingController@filter')->middleware('contentlength');
     Route::get('filter/remove', 'ListingController@filterRemove')->middleware('contentlength');
 });
-
 // Offer Routes
 Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function()
 {
@@ -224,7 +199,6 @@ Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function()
     Route::get('{id}', 'OfferController@show')->name('show');
     Route::post('message', 'OfferController@newMessage');
     Route::post('report', 'OfferController@report');
-
     // Payment routes
     Route::get('{id}/pay', 'OfferController@pay')->name('pay');
     Route::post('pay/balance', 'OfferController@payBalance')->name('pay.balance');
@@ -233,11 +207,8 @@ Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function()
     Route::get('{id}/pay/refund', 'OfferController@payRefund')->name('pay.refund');
     Route::get('{id}/pay/release', 'OfferController@payRelease')->name('pay.release');
     Route::get('{id}/transaction', 'OfferController@transaction')->name('transaction');
-
     // Stripe routes
     Route::get('{id}/pay/stripe/success/{token}', 'OfferController@payStripe')->name('pay.stripe.success');
-
-
     // Offer Admin Report Routes
     Route::group(['prefix' => 'admin', 'as' => 'frontend.offer.admin.', 'middleware' => ['permission:edit_offers']], function()
     {
@@ -246,23 +217,19 @@ Route::group(['prefix' => 'offer', 'as' => 'frontend.offer.'], function()
         Route::get('{id}/ban/{user_id}', 'OfferController@reportBan');
         Route::get('{id}/close/{reopen?}', 'OfferController@reportOfferClose');
         Route::get('{id}/revoke/{rating_id}', 'OfferController@reportRevoke');
-
         // Rating Admin Route
         Route::get('rating/{id}', 'OfferController@ratingShow');
     });
 });
 Route::get('/ajaxchat/{demand_id}', 'OfferController@chatOverview');
-
 // User Routes
 Route::get('/user/{slug}', 'UserController@show')->name('profile');
 Route::post('/user/push/{func}', 'UserController@push');
 Route::get('/user/search/json/{value}', 'UserController@searchJson');
-
 // Logout Route
 Route::get('logout', 'Frontend\Auth\LoginController@logout')->middleware('auth')->name('logout');
 // Registration Route
 Route::post('register', 'Frontend\Auth\RegisterController@register')->name('register');
-
 // Dashboard Routes
 Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function()
 {
@@ -281,36 +248,28 @@ Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function()
     Route::post('settings/password', 'UserController@changePassword');
     Route::post('settings/location', 'UserController@locationSave');
     Route::get('notifications/api', 'UserController@notificationsApi');
-
     // Dashboard payment
     Route::get('balance', 'UserController@balance');
     Route::get('balance/withdrawal', 'UserController@withdrawal');
     Route::post('balance/withdrawal/{method?}', 'UserController@addWithdrawal');
 });
-
 // Metacritic API Routes
 Route::get('metacritic/search/{type}', 'API\MetacriticController@search');
 Route::get('metacritic/find/{type}', 'API\MetacriticController@find');
-
 // Switch between the included languages
 Route::get('lang/{lang}', 'LanguageController@swap');
-
 // Switch between themes
 Route::get('theme/{lang}', 'ThemeController@swap');
-
 // Contact form
 Route::post('contact', 'PageController@contact');
-
 // SEO Routes
 Route::get('sitemap', 'SeoController@sitemapIndex');
 Route::get('sitemap/listings', 'SeoController@sitemapListings');
 Route::get('sitemap/games', 'SeoController@sitemapGames');
 Route::get('opensearch.xml', 'SeoController@openSearch')->name('opensearch');
 Route::get('robots.txt', 'SeoController@robots')->name('robots');
-
 // Post route for guest geo location
 Route::post('geolocation/save', 'UserController@guestGeoLocation');
-
 // Comment Routes
 Route::group(['prefix' => 'comments'], function()
 {
@@ -321,15 +280,10 @@ Route::group(['prefix' => 'comments'], function()
     Route::post('like', 'CommentController@like');
     Route::get('delete/{id}/{page}', 'CommentController@delete');
 });
-
-
 Route::get('blog', 'PageController@blog')->name('blog');
 Route::get('blog/{slug}', 'PageController@article')->name('article');
 Route::get('blog/category/{slug}', 'PageController@category')->name('category');
-
-
 Route::get('faqs', 'FaqController@index')->name('faqs');
-
 Route::group(['prefix' => 'messages'], function () {
     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
@@ -338,8 +292,6 @@ Route::group(['prefix' => 'messages'], function () {
     Route::post('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     Route::get('{id}/check', ['as' => 'messages.check', 'uses' => 'MessagesController@check']);
 });
-
-
 // CATCH-ALL ROUTE for PageManager
 Route::get('page/{page}/{subs?}', ['uses' => 'PageController@index'])
     ->where(['page' => '^((?!admin).)*$', 'subs' => '.*'])->name('page');

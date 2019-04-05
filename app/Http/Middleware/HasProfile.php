@@ -15,8 +15,7 @@ class HasProfile
      */
     public function handle($request, Closure $next)
     {
-        $user_id = \Auth::user()->id;
-        if () {
+        if (!\Auth::user()->profile) {
             return redirect()->route('fill-profile');
         }
         return redirect()->route('frontend.dash');

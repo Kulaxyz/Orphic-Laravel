@@ -116,7 +116,7 @@
   <script src="{{ asset('js/jquery.lazyload.min.js') }}"></script>
   {{-- Site JS --}}
   <script src="{{ asset('js/navcat.js') }}"></script>
-  <script async src="{{ asset('js/site.js') }}"></>
+  <script async src="{{ asset('js/site.js') }}"></script>
   <script src="{{ asset('vendor/owlcarousel/owl.carousel.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js"></script>
   @yield('jsss')

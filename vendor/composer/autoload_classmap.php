@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddArticleViews' => $baseDir . '/database/migrations/2019_04_03_101335_add_article_views.php',
     'AddChatterLastReplyAtDiscussion' => $baseDir . '/database/migrations/2017_10_10_221227_add_chatter_last_reply_at_discussion.php',
     'AddChatterSoftDeletes' => $baseDir . '/database/migrations/2017_08_07_165345_add_chatter_soft_deletes.php',
     'AddColorRowToChatterDiscussions' => $baseDir . '/database/migrations/2016_08_03_121747_add_color_row_to_chatter_discussions.php',

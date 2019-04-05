@@ -8,7 +8,7 @@
 
     {{-- Panel heading (Profile) --}}
     <div class="panel-heading">
-      <h3 class="panel-title">{{ trans('users.dash.settings.profile') }}</h3>
+      <h3 class="panel-title">General information</h3>
     </div>
 
     {!! Form::open(array('url'=>'dash/settings','id'=>'form-settings','files' => true)) !!}
@@ -108,6 +108,77 @@
         <a href="javascript:void(0)" class="button" id="save-submit">
           <i class="fa fa-save" aria-hidden="true"></i> {{ trans('general.save') }}
         </a>
+      </div>
+    </div>
+    {!! Form::close() !!}
+
+
+  </section>
+
+  {{-- Profile --}}
+
+    <section class="panel">
+
+    {{-- Panel heading (Profile) --}}
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ trans('users.dash.settings.profile') }}</h3>
+    </div>
+
+    {!! Form::open(array('url'=>'dash/edit-profile','id'=>'form-settings','files' => true)) !!}
+    <div class="panel-body">
+      {{-- First name  --}}
+      <div class="input-wrapper">
+        {{-- First name label --}}
+        <label>{{ trans('users.dash.settings.first_name') }}</label>
+        {{-- Error messages for first name --}}
+        @if($errors->has('first_name'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('first_name') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- First name input --}}
+        <div class="input-group {{$errors->has('first_name') ? 'has-error' : '' }}">
+          <span class="input-group-addon fixed-width">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <input type="text" class="form-control rounded inline input" name="firts_name" autocomplete="off" value="{{$profile->first_name}}" placeholder="{{ trans('users.dash.settings.first_name') }}"/>
+        </div>
+      </div>
+
+      {{-- Surname  --}}
+      <div class="input-wrapper">
+        {{-- Surname label --}}
+        <label>{{ trans('users.dash.settings.surname') }}</label>
+        {{-- Error messages for surname --}}
+        @if($errors->has('surname'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('surname') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- Surname input --}}
+        <div class="input-group {{$errors->has('surname') ? 'has-error' : '' }}">
+          <span class="input-group-addon fixed-width">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <input type="text" class="form-control rounded inline input" name="surname" autocomplete="off" value="{{$profile->surname}}" placeholder="{{ trans('users.dash.settings.first_name') }}"/>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <div class="panel-footer">
+      <div>
+      </div>
+      {{-- Save button --}}
+      <div class="button">
+          <i class="fa fa-save" aria-hidden="true"></i>
+          <input type="submit" value="{{ trans('general.save') }}">
       </div>
     </div>
     {!! Form::close() !!}

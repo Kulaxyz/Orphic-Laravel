@@ -13,8 +13,9 @@ class CreateProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,11 +25,12 @@ class CreateProfileRequest extends FormRequest
     public function rules()
     {
         return [
+            'first_name' => 'required|min:2',
             'surname' => 'required|min:2',
             'age' => 'required|integer',
-            'gender' => 'required',
-            'skype' => 'unique',
-            'discord' => 'unique',
+            'skype' => 'unique:profiles',
+            'discord' => 'unique:profiles',
         ];
     }
+
 }

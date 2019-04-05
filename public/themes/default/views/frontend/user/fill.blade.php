@@ -8,6 +8,7 @@
         <form name="account-fill" action="{{URL::to('fill-profile')}}" method="POST">
             {{ csrf_field() }}
 
+            <input type="text" name="first_name" placeholder="Enter your first name">
             <input type="text" name="surname" placeholder="Enter your surname">
             <input type="number" name="age" placeholder="How old are you?">
             <h4>Select your gender:</h4>

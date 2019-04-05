@@ -58,7 +58,7 @@ class UserController
         // Page title
         SEO::setTitle(trans('users.dash.settings.settings') . ' - ' . config('settings.page_name'));
 
-        return view('frontend.user.settings.profile', ['user' => auth()->user(), 'location' => auth()->user()->location]);
+        return view('frontend.user.settings.profile', ['user' => auth()->user(), 'location' => auth()->user()->location], ['profile' => auth()->user()->profile]);
     }
 
     /**

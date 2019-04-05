@@ -23,7 +23,7 @@ class Faq extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     // protected $guarded = ['id'];
-    protected $fillable = ['slug', 'question', 'answer', 'status', 'date'];
+    protected $fillable = ['question', 'answer', 'status', 'date'];
     // protected $hidden = [];
     // protected $dates = [];
     protected $casts = [
@@ -63,27 +63,6 @@ class Faq extends Model
             ->orderBy('date', 'DESC');
     }
 
-
-    // The slug is created automatically from the "title" field if no slug exists.
-    public function getSlugOrTitleAttribute()
-    {
-        if ($this->slug != '') {
-            return $this->slug;
-        }
-
-        return $this->title;
-    }
-
-
-    /*
-    |
-    | Get URL
-    |
-    */
-    public function getUrlSlugAttribute()
-    {
-        return url('faq/' . str_slug($this->slug) . '-' . $this->id);
-    }
 
 
 
