@@ -124,7 +124,7 @@
       <h3 class="panel-title">{{ trans('users.dash.settings.profile') }}</h3>
     </div>
 
-    {!! Form::open(array('url'=>'dash/edit-profile','id'=>'form-settings','files' => true)) !!}
+    {!! Form::open(array('url'=>'dash/edit-profile','id'=>'profile-settings','files' => true)) !!}
     <div class="panel-body">
       {{-- First name  --}}
       <div class="input-wrapper">
@@ -143,7 +143,7 @@
           <span class="input-group-addon fixed-width">
             <i class="fa fa-user" aria-hidden="true"></i>
           </span>
-          <input type="text" class="form-control rounded inline input" name="firts_name" autocomplete="off" value="{{$profile->first_name}}" placeholder="{{ trans('users.dash.settings.first_name') }}"/>
+          <input type="text" class="form-control rounded inline input" name="first_name" autocomplete="off" value="{{$profile->first_name}}" placeholder="{{ trans('users.dash.settings.first_name') }}"/>
         </div>
       </div>
 
@@ -164,15 +164,119 @@
           <span class="input-group-addon fixed-width">
             <i class="fa fa-user" aria-hidden="true"></i>
           </span>
-          <input type="text" class="form-control rounded inline input" name="surname" autocomplete="off" value="{{$profile->surname}}" placeholder="{{ trans('users.dash.settings.first_name') }}"/>
+          <input type="text" class="form-control rounded inline input" name="surname" autocomplete="off" value="{{$profile->surname}}" placeholder="{{ trans('users.dash.settings.surname') }}"/>
+        </div>
+      </div>
+
+      {{-- Age  --}}
+      <div class="input-wrapper">
+        {{-- age label --}}
+        <label>{{ trans('users.dash.settings.age') }}</label>
+        {{-- Error messages for age --}}
+        @if($errors->has('age'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('age') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- age input --}}
+        <div class="input-group {{$errors->has('age') ? 'has-error' : '' }}">
+          <span class="input-group-addon fixed-width">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <input type="number" class="form-control rounded inline input" name="age" autocomplete="off" value="{{$profile->age}}" placeholder="{{ trans('users.dash.settings.age') }}"/>
+        </div>
+      </div>
+
+      {{-- gender  --}}
+      <div class="input-wrapper">
+        {{-- gender label --}}
+        <label>{{ trans('users.dash.settings.gender') }}</label>
+        {{-- Error messages for gender --}}
+        @if($errors->has('gender'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('gender') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- gender input --}}
+        <div class="input-group {{$errors->has('gender') ? 'has-error' : '' }}">
+          <span class="input-group-addon fixed-width">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <select name="gender" form="profile-settings" class="form-control rounded inline input" autocomplete="off" value="{{$profile->gender}}">
+            <option  {{ $profile->gender == "Male" ? 'selected' : ''}} value="Male">Male</option>
+            <option {{ $profile->gender == "Female" ? 'selected' : ''}} value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      {{-- skype  --}}
+      <div class="input-wrapper">
+        {{-- skype label --}}
+        <label>{{ trans('users.dash.settings.skype') }}</label>
+        {{-- Error messages for skype --}}
+        @if($errors->has('skype'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('skype') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- skype input --}}
+        <div class="input-group {{$errors->has('skype') ? 'has-error' : '' }}">
+          <span class="input-group-addon fixed-width">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <input type="text" class="form-control rounded inline input" name="skype" autocomplete="off" value="{{$profile->skype}}" placeholder="{{ trans('users.dash.settings.skype')}}"/>
+        </div>
+      </div>
+
+      {{-- discord  --}}
+      <div class="input-wrapper">
+        {{-- discord label --}}
+        <label>{{ trans('users.dash.settings.discord') }}</label>
+        {{-- Error messages for discord --}}
+        @if($errors->has('discord'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('discord') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- discord input --}}
+        <div class="input-group {{$errors->has('discord') ? 'has-error' : '' }}">
+          <span class="input-group-addon fixed-width">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+          <input type="text" class="form-control rounded inline input" name="discord" autocomplete="off" value="{{$profile->discord}}" placeholder="{{ trans('users.dash.settings.discord')}}"/>
         </div>
       </div>
 
 
+      {{-- about  --}}
+      <div class="input-wrapper">
+        {{-- discord about --}}
+        <label>{{ trans('users.dash.settings.about') }}</label>
+        {{-- Error messages for about --}}
+        @if($errors->has('about'))
+          <div class="bg-danger input-error">
+            @foreach($errors->get('about') as $message)
+              {{$message}}
+            @endforeach
+          </div>
+        @endif
+        {{-- about input --}}
+        <div class="input-group {{$errors->has('about') ? 'has-error' : '' }}">
+          <textarea name="about" cols="60" rows="10" class="form-control rounded inline input" name="about" autocomplete="off" placeholder="Hey, type here something about yourself">{{$profile->about}}</textarea>
+        </div>
+      </div>
 
     </div>
 
-    <div class="panel-footer">
+      <div class="panel-footer">
       <div>
       </div>
       {{-- Save button --}}

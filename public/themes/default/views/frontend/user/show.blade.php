@@ -32,6 +32,97 @@
   </ul>
 </div>
 
+    <div class="user-info">
+        <div class="L-usr-info">
+            <img src="{{$user->avatar_square}}" alt="">
+            <a href="{{ route('common.settings') }}">
+            <div class="btn-editprofile">
+                <p class="text-decor-edit">Edit profile</p>
+            </div>
+            </a>
+            <div class="menu-shortcuts block-usr">
+                <a href="{{route('frontend.dash')}}"><p><i class="icon fa fa-tachometer"></i>{{ trans('users.dash.dashboard') }}</p></a>
+                <a href="{{route('wishlist')}}"><p><i class="icon fa fa-heart"></i>{{trans('wishlist.wishlist')}}</p></a>
+                <a href="{{route('notifications')}}"><p><i class="icon fa fa-bell"></i>{{ trans('notifications.title') }}</p></a>
+                <a href="{{route('messages')}}"><p><i class="fas fa-envelope "></i>{{ trans('messenger.messenger') }}</p></a>
+            </div>
+        </div>
+        <div class="R-usr-info">
+            <div class="main-info-usr block-usr">
+                <div class="head-main-info">
+                    <div class="name-usr">
+                        <p>{{ $user->name }}</p>
+                    </div>
+                    <div class="status-usr">
+
+                    </div>
+                </div>
+                <div class="personal-usr">
+                    <div class="L-usr-personal">
+                        <p>First name:</p>
+                        <p>Location:</p>
+                        <p>Age:</p>
+                        <p>Gender:</p>
+                    </div>
+                    <div class="L-answer-personal">
+                        <p>{{ $profile->first_name }}</p>
+                        <p>{{ $user->location->country . ', ' . $user->location->place}}</p>
+                        <p>{{ $profile->age }}</p>
+                        <p>{{ $profile->gender }}</p>
+                    </div>
+                    <div class="R-usr-personal">
+                        <p>Last name:</p>
+                        <p>E-mail:</p>
+                        <p>Skype:</p>
+                        <p>Discord:</p>
+                    </div>
+                    <div class="R-answer-personal">
+                        <p>{{ $profile->surname }}</p>
+                        <p>{{ $user->email }}</p>
+                        <p>{{ $profile->skype }}</p>
+                        <p>{{ $profile->discord }}</p>
+                    </div>
+                </div>
+                <div class="about-usr">
+                    <p>About me:</p>
+                    <div>
+                        <p>
+                            {{$profile->about}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="referal-lnk block-usr">
+                <div class="head-ref-usr">
+                    <div class="ref">
+                        <p>Referral link</p>
+                    </div>
+                    <div class="counter-ref">
+                        <p>Refferals:</p>
+                    </div>
+                </div>
+                <div class="link-ref-usr">
+                    <div class="adress-ref">
+                        <input type="text" value="google.com" class="lnk-ref" readonly>
+                    </div>
+                    <div class="btn-copy">
+                        <a href="#"><i class="fas fa-copy"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="latest-news block-usr">
+                <p>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Sed ex sunt praesentium animi asperiores facilis voluptate,
+                    consequatur esse ipsum magnam quod quasi ipsa, quae natus
+                    inventore cumque corporis hic nihil doloremque. Vero libero,
+                    perspiciatis dicta dignissimos veritatis aspernatur culpa.
+                    Sint?
+                </p>
+            </div>
+        </div>
+    </div>
+
 <div class="tab-content subheader-margin">
 
   {{-- START LISTINGS --}}
@@ -249,7 +340,22 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
+<script type="text/javascript">
+    var cutTextareaBtn = document.querySelector('.fa-copy');
 
+    cutTextareaBtn.addEventListener('click', function(event) {
+        var cutTextarea = document.querySelector('.lnk-ref');
+        cutTextarea.select();
+
+        try {
+            var successful = document.execCommand('cut');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Cutting text command was ' + msg);
+        } catch(err) {
+            console.log('Oops, unable to cut');
+        }
+    });
+</script>
 <script type="text/javascript">
 $(document).ready(function(){
 

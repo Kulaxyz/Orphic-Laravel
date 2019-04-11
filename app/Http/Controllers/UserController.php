@@ -145,7 +145,7 @@ class UserController
         // Page description
         SEO::setDescription(trans('general.description.profile', ['user_name' => $user->name, 'listings_count' => $user->listings->count(), 'page_name' => config('settings.page_name'), 'sub_title' => config('settings.sub_title')]));
 
-        return view('frontend.user.show', ['user' => $user, 'listings' => $user->listings()->where('user_id', $user->id)->where('status', 0)->orWhere('status', null)->where('user_id', $user->id)->with('game','game.platform','user')->paginate(36), 'ratings' => $user->ratings()->with('user_from')->get()]);
+        return view('frontend.user.show', ['user' => $user, 'profile' => \Auth::user()->profile, 'listings' => $user->listings()->where('user_id', $user->id)->where('status', 0)->orWhere('status', null)->where('user_id', $user->id)->with('game','game.platform','user')->paginate(36), 'ratings' => $user->ratings()->with('user_from')->get()]);
     }
 
     /**

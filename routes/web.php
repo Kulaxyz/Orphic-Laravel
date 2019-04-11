@@ -12,8 +12,6 @@
 // Startpage
 Route::get('/', 'PageController@startpage')->name('index');
 
-Route::get('upd', 'ProfileController@update');
-
 
 // Profile Routes
 Route::group(['middleware' => ['auth']], function()
@@ -234,16 +232,17 @@ Route::post('register', 'Frontend\Auth\RegisterController@register')->name('regi
 Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function()
 {
     Route::get('', 'UserController@dashboard')->name('frontend.dash');
-    Route::get('notifications', 'UserController@notifications');
+    Route::get('notifications', 'UserController@notifications')->name('notifications');
     Route::post('notifications/read', 'UserController@notificationsRead');
     Route::get('notifications/read/all', 'UserController@notificationsReadAll');
     Route::get('listings', 'UserController@listings');
     Route::get('listings/{sort?}', 'UserController@listings');
     Route::get('offers', 'UserController@offers');
     Route::get('offers/{sort?}', 'UserController@offers');
-    Route::get('wishlist', 'WishlistController@index');
-    Route::get('settings', 'UserController@settingsForm');
-    Route::post('settings', 'UserController@settingsSave')->name('dashboard.settings');;
+    Route::get('wishlist', 'WishlistController@index')->name('wishlist');
+    Route::get('settings', 'UserController@settingsForm')->name('common.settings');
+    Route::post('settings', 'UserController@settingsSave')->name('dashboard.settings');
+    Route::post('edit-profile', 'ProfileController@update')->name('edit-profile');
     Route::get('settings/password', 'UserController@passwordForm');
     Route::post('settings/password', 'UserController@changePassword');
     Route::post('settings/location', 'UserController@locationSave');

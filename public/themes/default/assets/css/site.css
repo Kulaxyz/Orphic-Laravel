@@ -1,4 +1,114 @@
 /*
+** Profile
+ */
+select.form-control.rounded.inline.input {
+  border: 0px !important;
+  background-color: #4e4d4d;
+  color: #fff;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+}
+.personal-usr {
+  display: flex;
+  margin-top: 25px;
+}
+.head-ref-usr {
+  display: flex;
+}
+.link-ref-usr {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.text-decor-edit {
+  margin-top: 10px;
+}
+.L-usr-info {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.R-usr-info {
+  width: 80%;
+}
+.btn-editprofile {
+  background-color: #E98F2E;
+  padding: 5px 60px;
+  border-radius: 10px;
+}
+.btn-editprofile i {
+  margin-right: 15px;
+}
+.btn-editprofile p {
+  text-transform: uppercase;
+  color: #fff0ff;
+  font-size: 17px;
+}
+.btn-editprofile a {
+  text-decoration: none;
+  color: black;
+}
+.btn-copy {
+  margin-left: 20px;
+}
+.fa-copy {
+  color: black;
+}
+.block-usr {
+  background-color: #302f2f;
+}
+.menu-shortcuts {
+  padding: 10px 50px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+.menu-shortcuts p {
+  margin-top: 25px;
+}
+.menu-shortcuts i {
+  margin-right: 17px;
+}
+.main-info-usr {
+  padding: 20px 25px;
+  border-radius: 10px;
+}
+.L-usr-personal {
+  width: 25%;
+}
+.R-usr-personal {
+  width: 25%;
+}
+.L-answer-personal {
+  width: 25%;
+}
+.R-answer-personal {
+  width: 25%;
+}
+.referal-lnk {
+  margin-top: 40px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+.latest-news {
+  margin-top: 40px;
+  padding: 10px 25px;
+  border-radius: 10px;
+}
+.usr-photo img {
+  width: 200px;
+}
+.counter-ref {
+  margin-left: 60px;
+}
+.adress-ref input {
+  width: 900px;
+}
+
+/*
 * Forums background
 */
 .white-background {
