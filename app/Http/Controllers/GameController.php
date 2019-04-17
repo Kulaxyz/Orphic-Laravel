@@ -1,12 +1,13 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Game;
+use App\Models\GameImage;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Input;
 use ClickNow\Money\Money;
-use App\Models\Game;
 use App\Models\Giantbomb;
 use App\Models\Platform;
 use App\Models\Genre;
@@ -145,7 +146,6 @@ class GameController
     public function showMedia($id)
     {
         $game = Game::with('giantbomb')->find($id);
-
         // Accept only ajax requests
         if (!Request::ajax()) {
             // redirect to game if no AJAX request
@@ -156,6 +156,10 @@ class GameController
             }
         }
 
+        // don't loose backUrl session if one is set
+        if (Session::has('backUrl')) {
+            Session::keep('backUrl');
+        }
         // Check if game exist
         if (!$game) {
             return abort('404');
@@ -166,13 +170,10 @@ class GameController
             $images = json_decode($game->giantbomb->images);
             $videos = json_decode($game->giantbomb->videos);
         } else {
-            $images = NULL;
+            $images = $game->images()->get();
             $videos = NULL;
-        }
 
-        // don't loose backUrl session if one is set
-        if (Session::has('backUrl')) {
-            Session::keep('backUrl');
+            return view('frontend.game.media', ['game' => $game,'images' =>$images,'videos' =>$videos]);
         }
 
         return view('frontend.game.showMedia', ['game' => $game,'images' =>$images,'videos' =>$videos]);
@@ -1159,4 +1160,80 @@ class GameController
 
         return Redirect::to(url()->current() == url()->previous() ? url('/') : url()->previous());
     }
+
+    public function imagesUpload($id = null, \Illuminate\Http\Request $request)
+    {
+        // Ignore user aborts
+        ignore_user_abort(true);
+
+        if ($id !== null) {
+            $game = Game::find($id);
+
+        }else{
+            $game = Game::find($request->game_id);
+        }
+
+        if ($game) {
+
+            $images = $request->file('files');
+            $order = 0;
+            foreach ($images as $image) {
+                $extension = 'jpg';
+                $newfilename = time() . $order . '-' . $game->id . '.' . $extension;
+                $destination_path = 'public/games';
+
+                $img = \Image::make($image->path());
+                $disk = "local";
+
+                \Storage::disk($disk)->put($destination_path . '/' . $newfilename, $img->stream());
+
+                // Start order from 1 instead of 0
+                $order += 1;
+
+                $game_image = new GameImage;
+                $game_image->user_id = 1;
+                $game_image->game_id = $game->id;
+                $game_image->filename = $newfilename;
+                $game_image->order = $order;
+
+                $game_image->save();
+
+            }
+
+            return redirect()->route('games', $game->url_slug);
+        } else{
+            abort(404);
+        }
+    }
+
+
+    public function images($id)
+    {
+        // Check if request was sent through ajax
+        if (!request()->ajax()) {
+            abort(404);
+        }
+        return Game::find($id)->images;
+    }
+
+    public function imagesRemove(\Illuminate\Http\Request $request)
+    {
+        // Ignore user aborts
+        ignore_user_abort(true);
+
+        // Get image item
+        $image = GameImage::where('filename', $request->filename)->first();
+
+        // Remove file image
+        $destination_path = 'public/games';
+        $disk = "local";
+        \Storage::disk($disk)->delete($destination_path.'/'.$request->filename);
+
+        // Delete database entry
+        $image->delete();
+
+        // Return a success response
+        return \Response::json('success', 200);
+    }
+
 }

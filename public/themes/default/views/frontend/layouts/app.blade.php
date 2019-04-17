@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- Meta --}}
     @if(config('settings.facebook_client_id') != '')
     <meta property="fb:app_id" content="{{config('settings.facebook_client_id')}}" />
@@ -22,6 +23,7 @@
       SEOMeta::setTitle('(' . ((int)count(Auth::user()->unreadNotifications)  + (!Request::is('messages') ? (int)$unreadMessagesCount : 0)) . ') ' . $title);
       @endphp
     @endif
+
     {{-- Generate SEO tags --}}
     {!! SEO::generate() !!}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/apple-touch-icon.png') }}">
@@ -203,6 +205,14 @@
     });
   </script>
   @endif
+
+  <script type="text/javascript">
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  </script>
 
   <script src="{{ asset('js/notie.min.js') }}"></script>
   {{-- Bootstrap Notifications using notie Alerts --}}

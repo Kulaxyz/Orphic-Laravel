@@ -5,6 +5,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\GameRequest as StoreRequest;
 use App\Http\Requests\GameRequest as UpdateRequest;
+use function PHPSTORM_META\type;
 
 class GameCrudController extends CrudController
 {
@@ -31,6 +32,7 @@ class GameCrudController extends CrudController
 
         $this->crud->addField(['name'  => 'name' ,'attributes' => ['required' => 'required']]);
         $this->crud->addField(['name'  => 'description', 'type' => 'summernote']);
+        $this->crud->addField(['name' => 'price', 'label' => 'price in $', 'type' => 'text']);
 
         $this->crud->addField(['name'  => 'cover_generator', 'label' => 'Enable cover generator', 'type' => 'toggle', 'hint' => 'Add platform bar with logo on top of game cover.']);
 
@@ -53,6 +55,7 @@ class GameCrudController extends CrudController
           }
         ]);
         $this->crud->addColumn(['name' => 'platform_id','type' => 'model_function','function_name' => 'getConsoleAdmin']);
+        $this->crud->addColumn(['name' => 'price', 'label' => 'price in $']);
         $this->crud->addColumn(['name' => 'publisher']);
         $this->crud->addColumn(['name' => 'active_listings', 'label' => 'Active Listings', 'type' => 'model_function','function_name' => 'getListingsAdmin']);
 

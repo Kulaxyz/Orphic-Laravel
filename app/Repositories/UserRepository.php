@@ -10,6 +10,9 @@ use App\Models\SocialLogin;
 use App\Models\User_Location;
 use App\Events\Frontend\Auth\UserConfirmed;
 use App\Notifications\Auth\UserNeedsConfirmation;
+use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Facades\Cookie;
+
 
 /**
  * Class UserRepository
@@ -81,10 +84,15 @@ class UserRepository extends Repository
         $user = self::MODEL;
         $user = new $user;
 
+        $cookie = Cookie::get('referral');
+        $referred_by = $cookie ? User::where('ref_link', $cookie) : null;
+
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->confirmation_code = md5(uniqid(mt_rand(), true));
         $user->status = 1;
+        $user->ref_link = substr(Uuid::generate(4)->string, 0, 7);
+        $user->referred_by = $referred_by;
         $user->password = $provider ? null : bcrypt($data['password']);
         $user->confirmed = $provider ? 1 : (config('settings.user_confirmation') ? 0 : 1);
 

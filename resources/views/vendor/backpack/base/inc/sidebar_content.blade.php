@@ -94,6 +94,10 @@
   <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/faq') }}"><i class="fa fa-question-circle"></i> <span>FAQs</span></a></li>
 @endcan
 
+@can('edit_currency')
+  <li><a href="{{ url(config('backpack.base.route_prefix', 'admin').'/currency') }}"><i class="fa fa-money"></i> <span>Currency</span></a></li>
+@endcan
+
 @can('edit_articles')
 <li class="treeview">
     <a href="#"><i class="fa fa-newspaper-o"></i> <span>News</span> <i class="fa fa-angle-left pull-right"></i></a>

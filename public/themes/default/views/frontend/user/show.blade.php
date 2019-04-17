@@ -66,7 +66,11 @@
                     </div>
                     <div class="L-answer-personal">
                         <p>{{ $profile->first_name }}</p>
-                        <p>{{ $user->location->country . ', ' . $user->location->place}}</p>
+                        @if(!is_null($user->location))
+                            <p>{{ $user->location->country  . ', ' . $user->location->place}}</p>
+                        @else
+                            <p>unset</p>
+                        @endif
                         <p>{{ $profile->age }}</p>
                         <p>{{ $profile->gender }}</p>
                     </div>
@@ -103,10 +107,10 @@
                 </div>
                 <div class="link-ref-usr">
                     <div class="adress-ref">
-                        <input type="text" value="google.com" class="lnk-ref" readonly>
+                        <input type="text" value="{{ route('index') . '/?ref=' . $user->ref_link }}" class="js-reflink" readonly>
                     </div>
                     <div class="btn-copy">
-                        <a href="#"><i class="fas fa-copy"></i></a>
+                        <a href="#" class="js-copybtn"><i class="fas fa-copy"></i></a>
                     </div>
                 </div>
             </div>
@@ -199,7 +203,7 @@
               </div>
               @elseif($listing->limited_edition)
               <div class="item-name">
-                <i class="fa fa-star" aria-hidden="true"></i> {{ $listing->limited_edition }}<span>
+                <i class="fa fa-star" aria-hidden="true"></i><span> {{ $listing->limited_edition }}</span>
               </div>
               @endif
               @if($listing->picture)
@@ -341,20 +345,28 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
 <script type="text/javascript">
-    var cutTextareaBtn = document.querySelector('.fa-copy');
+    function performCopyRef() {
+        var refLink = document.querySelector('.js-reflink');
 
-    cutTextareaBtn.addEventListener('click', function(event) {
-        var cutTextarea = document.querySelector('.lnk-ref');
-        cutTextarea.select();
+        var range = document.createRange();
+        range.selectNode(refLink);
+        window.getSelection().addRange(range);
 
         try {
-            var successful = document.execCommand('cut');
+            var successful = document.execCommand('copy');
             var msg = successful ? 'successful' : 'unsuccessful';
-            console.log('Cutting text command was ' + msg);
-        } catch(err) {
-            console.log('Oops, unable to cut');
+            ChromeSamples.log('Copy email command was ' + msg);
+        } catch (err) {
+            ChromeSamples.log('execCommand Error', err);
         }
-    });
+        window.getSelection().removeAllRanges();
+    }
+
+    var copyRefBtn = document.querySelector('.js-copybtn');
+
+    // Add click event listeners
+    copyRefBtn.addEventListener('click', performCopyRef);
+
 </script>
 <script type="text/javascript">
 $(document).ready(function(){

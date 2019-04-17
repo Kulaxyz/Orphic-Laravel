@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -1583,6 +1584,130 @@ class OfferController
 
         return true;
 
+    }
+
+    public function new_order($id)
+    {
+        $game = Game::findOrFail($id);
+        $mrh_login = "orphicgames";
+        $mrh_pass1 = "S56i3nt3cuoEcp6VdGSQ";
+        $random = random_int(1000, 9999);
+        //change!!!
+        $currency = Currency::first();
+        $ruble_rate = $currency->ruble;
+        $inv_id = $random . $id;
+        $inv_desc = $game->name;
+        $shp_item = $id;
+        $in_curr = "";
+        $culture = 'en';
+        $email = Auth::user()->email;
+        $encoding = "utf-8";
+        $out_summ = round(($game->price * $ruble_rate), 2, PHP_ROUND_HALF_UP);
+
+
+//        //new order
+//        $order['user_id'] = Auth::user()->id;
+//        $order['date'] = date('Y-m-d H:i:s', time());
+//        $order['total'] = $game->price;
+//        $order['cart'] = $shp_item;
+//        $order['number'] = (int)$inv_id;
+//        $order['status'] = 'не оплачен';
+//        //$this->db->insert('orders', $order);
+
+        $crc  = md5("$mrh_login:$out_summ:$inv_id:$mrh_pass1:Shp_item=$shp_item");
+        $hidden = [
+            'MrchLogin' => $mrh_login,
+            'OutSum' => $out_summ,
+            'InvId' => $inv_id,
+            'Desc' => $inv_desc,
+            'SignatureValue' => $crc,
+            'Shp_item' => $shp_item,
+            'IncCurrLabel' => $in_curr,
+            'Culture' => $culture,
+            'Email' => $email
+        ];
+        $url = 'https://auth.robokassa.ru/Merchant/Index.aspx';
+
+        print "<html>".
+            "<form id='myForm' action='https://merchant.roboxchange.com/Index.aspx' method=POST>".
+            "<input type=hidden name=MrchLogin value=$mrh_login>".
+            "<input type=hidden name=OutSum value=$out_summ>".
+            "<input type=hidden name=InvId value=$inv_id>".
+            "<input type=hidden name=Desc value='$inv_desc'>".
+            "<input type=hidden name=SignatureValue value=$crc>".
+            "<input type=hidden name=Shp_item value='$shp_item'>".
+            "<input type=hidden name=IncCurrLabel value=$in_curr>".
+            "<input type=hidden name=Culture value=$culture>".
+            "<input style='' type=submit value='Please wait your order is being processed'>".
+            "</form></html>";
+
+        echo '<script type="text/javascript">document.getElementById("myForm").submit();</script>';
+    }
+
+
+    public function robokassaPayment()
+    {
+
+    // your registration data
+        $mrh_pass1 = "S56i3nt3cuoEcp6VdGSQ";  // merchant pass1 here
+
+    // HTTP parameters:
+        $out_summ = $_REQUEST["OutSum"];
+        $inv_id = $_REQUEST["InvId"];
+        $crc = $_REQUEST["SignatureValue"];
+
+        $crc = strtoupper($crc);  // force uppercase
+
+    // build own CRC
+        $my_crc = strtoupper(md5("$out_summ:$inv_id:$mrh_pass1"));
+
+        if ($my_crc != $crc)
+        {
+            echo "bad sign\n";
+            exit();
+        } else {
+//            Referral bonus
+            if ($ref_id = Auth::user()->reffered_by)
+            {
+                $ref = User::findOrFail($ref_id);
+                $currency = Currency::first();
+                $ruble_rate = $currency->ruble;
+                $sum = $out_summ / $ruble_rate;
+                $bonus = floor($ref->bonus / 100);
+                $ref->balance += ($sum * $bonus);
+                $ref->save();
+            }
+
+            // Create new payment
+            $payment = new Payment;
+
+            // Offer details
+            $payment->item_id = $inv_id;
+            $payment->item_type = Offer::class;
+
+            // Page User
+            $payment->user_id = Auth::user()->id;
+
+            // Transaction details from gateway
+            $payment->transaction_id = Auth::user()->id . '-' . time();
+            $payment->payment_method = 'robokassa';
+            $payment->payer_info = json_encode(array('email' => Auth::user()->email));
+
+            // Money
+            $payment->total = $out_summ;
+            $payment->transaction_fee = '0';
+            $payment->currency = 'ruble';
+
+            // Save payment
+            $payment->save();
+
+//            Send notification to admin
+            $admin = User::findOrFail(1);
+            $admin->notify(new PaymentNew("UNCLEARNESS", $payment));
+
+            // OK, payment proceeds
+            \Alert::success('<i class="fa fa-check m-r-5"></i> Money released to seller!')->flash();
+        }
     }
 
 }

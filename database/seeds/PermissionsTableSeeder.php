@@ -122,6 +122,13 @@ class PermissionsTableSeeder extends Seeder
                     'created_at' => '2019-03-24 18:39:30',
                     'updated_at' => '2019-03-24 18:39:30',
                 ),
+            15 =>
+                array (
+                    'id' => 16,
+                    'name' => 'edit_currency',
+                    'created_at' => '2019-04-14 18:39:30',
+                    'updated_at' => '2019-04-14 18:39:30',
+                ),
         ));
 
 

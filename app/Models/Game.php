@@ -24,7 +24,7 @@ class Game extends Model
     protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['name','description','cover_generator','cover','release_date','publisher','developer','pegi','platform_id','genre_id'];
+    protected $fillable = ['name','description','cover_generator','cover', 'price', 'release_date','publisher','developer','pegi','platform_id','genre_id'];
     // protected $hidden = [];
     protected $dates = ['release_date','deleted_at'];
 
@@ -52,6 +52,11 @@ class Game extends Model
     public function platform()
     {
         return $this->belongsTo('App\Models\Platform');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\GameImage')->orderBy('order');
     }
 
     public function genre()

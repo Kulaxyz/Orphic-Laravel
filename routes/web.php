@@ -9,9 +9,10 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+
+
 // Startpage
 Route::get('/', 'PageController@startpage')->name('index');
-
 
 // Profile Routes
 Route::group(['middleware' => ['auth']], function()
@@ -79,6 +80,10 @@ Route::group(['prefix' => config('backpack.base.route_prefix', 'admin'), 'middle
     {
         CRUD::resource('faq', 'Admin\FaqCrudController');
     });
+    Route::group(['middleware' => ['permission:edit_currency']], function()
+    {
+        CRUD::resource('currency', 'Admin\CurrencyCrudController');
+    });
     Route::group(['middleware' => ['permission:edit_forum_cats']], function()
     {
         CRUD::resource('forums', 'Admin\ForumCategoryCrudController');
@@ -128,6 +133,8 @@ Route::group(['middleware' => 'guest','namespace' => 'Frontend\Auth', 'as' => 'f
     // Authentication Routes
     Route::get('login', 'LoginController@showLoginForm')->name('login');
     Route::post('login', 'LoginController@login')->name('login.post');
+    // Registration Route
+    Route::post('register', 'Frontend\Auth\RegisterController@register')->name('register');
     // Socialite Routes
     Route::get('login/{provider}', 'SocialLoginController@login')->name('social.login');
     // Confirm Account Routes
@@ -147,10 +154,16 @@ Route::group(['prefix' => 'games'], function()
 {
     Route::get('/', 'GameController@index')->middleware('contentlength')->name('games');
     Route::get('add', 'GameController@add')->middleware('auth');
+    Route::post('edit', 'GameController@edit')->middleware('auth');
     Route::post('add/{json?}', 'GameController@addgame');
     Route::get('search', function () {
         return view('frontend.game.search');
     });
+    Route::get('/add_img', 'GameController@img_form');
+    Route::post('{id}/images/upload', 'GameController@imagesUpload')->name('games.images.upload');
+    Route::get('{id}/images', 'GameController@images')->name('game.images');
+    Route::post('{id}/images/sort', 'GameController@imagesSort')->name('games.images.sort');
+    Route::post('/images/remove', 'GameController@imagesRemove')->name('games.images.remove');
     Route::get('{slug}', 'GameController@show')->name('game');
     Route::get('{id}/media', 'GameController@showMedia');
     Route::get('{id}/trade', 'GameController@showTrade');
@@ -226,8 +239,6 @@ Route::post('/user/push/{func}', 'UserController@push');
 Route::get('/user/search/json/{value}', 'UserController@searchJson');
 // Logout Route
 Route::get('logout', 'Frontend\Auth\LoginController@logout')->middleware('auth')->name('logout');
-// Registration Route
-Route::post('register', 'Frontend\Auth\RegisterController@register')->name('register');
 // Dashboard Routes
 Route::group(['prefix' => 'dash', 'middleware' => 'auth'], function()
 {

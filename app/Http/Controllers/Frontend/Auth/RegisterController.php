@@ -1,12 +1,10 @@
 <?php
 namespace App\Http\Controllers\Frontend\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Http\Requests\Frontend\Auth\RegisterRequest;
 use App\Repositories\UserRepository;
-
 /**
  * Class RegisterController
  * @package App\Http\Controllers\Frontend\Auth
@@ -14,12 +12,10 @@ use App\Repositories\UserRepository;
 class RegisterController extends Controller
 {
     use RegistersUsers;
-
     /**
      * @var UserRepository
      */
     protected $user;
-
     /**
      * RegisterController constructor.
      * @param UserRepository $user
@@ -28,10 +24,8 @@ class RegisterController extends Controller
     {
         // Where to redirect users after registering
         $this->redirectTo = route('index');
-
         $this->user = $user;
     }
-
     /**
      * Show the application registration form.
      *
@@ -41,7 +35,6 @@ class RegisterController extends Controller
     {
         return view('frontend.auth.register');
     }
-
     /**
      * @param RegisterRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

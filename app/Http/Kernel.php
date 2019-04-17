@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\LocaleMiddleware::class,
             \App\Http\Middleware\ThemeMiddleware::class,
             \App\Http\Middleware\SettingsMiddleware::class,
+            \App\Http\Middleware\CheckReferral::class,
 
         ],
 

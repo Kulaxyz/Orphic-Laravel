@@ -334,3 +334,4 @@ class CommentController extends Controller
         return $return_url;
     }
 }
+

@@ -94,7 +94,7 @@
   {!! Form::open(array('url'=>'listings/edit', 'id'=>'form-listing', 'role'=>'form', 'files' => true )) !!}
   <input name="game_id" type="hidden" value="{{ encrypt($game->id) }}" />
   <input name="listing_id" type="hidden" value="{{ encrypt($listing->id) }}" />
-  <input name="redirect" type="hidden" value"{{ url()->previous() }}" />
+  <input name="redirect" type="hidden" value="{{ url()->previous() }}" />
 {{-- Open form for new listing  --}}
 @else
   {!! Form::open(array('url'=>'listings/add', 'id'=>'form-listing', 'role'=>'form', 'files' => true )) !!}

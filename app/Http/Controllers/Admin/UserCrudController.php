@@ -88,6 +88,11 @@ class UserCrudController extends CrudController
                'model'     => "Backpack\PermissionManager\app\Models\Permission", // foreign key model
             ],
             [
+                'label'    => 'Bonus (%)',
+                'type'     => 'text',
+                'name'     => 'bonus',
+            ],
+            [
                 'name'  => 'balance',
                 'label' => 'Balance in ' . config('settings.currency'),
                 'type'  => 'text',
@@ -105,6 +110,11 @@ class UserCrudController extends CrudController
                 'name'  => 'email',
                 'label' => trans('backpack::permissionmanager.email'),
                 'type'  => 'email',
+            ],
+            [
+                'name'     => 'bonus',
+                'label'    => 'Bonus (%)',
+                'type'     => 'number',
             ],
             [
                 'name'  => 'password',
